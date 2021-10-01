@@ -59,15 +59,17 @@ class DetectorNode(rclpy.node.Node):
             #print(absolute_changes)
             detection = np.argwhere(absolute_changes > 0.1)
             if len(detection) > 0:
-                print("DETECTED")
+                print("DETECTED - Relative to Robot:")
                 #print(detection)
                 distance = cur_arr[detection[0]]
-                print("DISTANCE IS: {}".format(distance))
-                print("Angle is: {}".format(detection[0] * self.angle_incr))
-                #print(absolute_changes[detection[0]])
-                #Find location relative to robot
-                #Publish location 
-                #self.intruder_pub.publish(point)
+                angle = detection[0] * self.angle_incr
+                y_comp = distance * np.sin(angle)
+                x_comp = distance * np.cos(angle)
+                print("\tx: {}".format(x_comp))
+                print("\ty: {}".format(y_comp))
+                point.point.x = float(x_comp)
+                point.point.y = float(y_comp)
+                self.intruder_pub.publish(point)
 
 def main():
     rclpy.init()
