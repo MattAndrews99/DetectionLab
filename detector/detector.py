@@ -62,6 +62,7 @@ class DetectorNode(rclpy.node.Node):
                 print("DETECTED - Relative to Robot:")
                 #print(detection)
                 distance = cur_arr[detection[0]]
+                print("\tDistance: {}".format(distance))
                 angle = detection[0] * self.angle_incr
                 y_comp = distance * np.sin(angle)
                 x_comp = distance * np.cos(angle)
